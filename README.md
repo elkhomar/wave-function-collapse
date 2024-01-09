@@ -1,4 +1,4 @@
-# Project 3D Computer Science - The Megastructure by El khalifi Omar and Marie Louise Communal 
+# Computer graphics project - The Megastructure by El khalifi Omar and Marie Louise Communal 
 
 [![Megastructure Info 3D](https://img.youtube.com/vi/H0w2zC7M3uc/0.jpg)](https://www.youtube.com/watch?v=H0w2zC7M3uc)
 
