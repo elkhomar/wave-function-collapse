@@ -60,96 +60,53 @@ std::map<int, std::vector<mesh>> modelMap =
 };
 
 void initWFC() {
-
 	// Tile weights
-	weights.emplace("  ", 1);
-	weights.emplace("-'", 15);
-	weights.emplace("|_", 15);
-	weights.emplace("|'", 15);
-	weights.emplace("-.", 15);
-	weights.emplace(" +", 1);
-	weights.emplace("--", 100);
-	weights.emplace("| ", 100);
-
+	weights = {
+		{"  ", 1},
+		{"-'", 15},
+		{"|_", 15},
+		{"|'", 15},
+		{"-.", 15},
+		{" +", 1},
+		{"--", 100},
+		{"| ", 100}
+	};
 
 	// Tile indices
-	numbers.emplace("  ", 0);
-	numbers.emplace("-'", 1);
-	numbers.emplace("|_", 2);
-	numbers.emplace("|'", 3);
-	numbers.emplace("-.", 4);
-	numbers.emplace(" +", 5);
-	numbers.emplace("--", 6);
-	numbers.emplace("| ", 7);
-
-
+	numbers = {
+		{"  ", 0},
+		{"-'", 1},
+		{"|_", 2},
+		{"|'", 3},
+		{"-.", 4},
+		{" +", 5},
+		{"--", 6},
+		{"| ", 7}
+	};
 
 	// Compatibility matrix
+	std::vector<std::vector<std::set<std::string>>> compatibilities(parameters::nTiles, std::vector<std::set<std::string>>(parameters::nTiles));
 
-	compatibilities[0][1] = { "up", "left" };
-	compatibilities[1][0] = { "down", "right" };
+	std::vector<std::vector<std::vector<std::string>>> compatibilityData = {
+		{{"up", "left"}, {"down", "right"}},
+		{{"down", "left"}, {"right"}},
+		{{"up", "right"}, {"left"}},
+		{{"up", "left"}, {"down", "right"}, {"down"}},
+		{{"down", "left"}, {"up", "right"}, {"right"}},
+		{{}, {"down", "right"}, {"down", "left"}, {"up", "left"}, {"up", "right"}},
+		{{"up", "down"}, {"right"}, {"left"}, {"left"}, {"right"}, {"left", "right"}},
+		{{"left", "right"}, {"down"}, {"down"}, {"up"}, {"up"}, {"up", "down"}}
+	};
 
-	compatibilities[2][0] = { "down", "left" };
-	compatibilities[2][1] = { "right" };
-	compatibilities[0][2] = { "up", "right" };
-	compatibilities[1][2] = { "left" };
+	for (int i = 0; i < parameters::nTiles; i++) {
+		for (int j = 0; j < parameters::nTiles; j++) {
+			compatibilities[i][j] = std::set<std::string>(compatibilityData[i][j].begin(), compatibilityData[i][j].end());
+		}
+	}
 
-	compatibilities[3][0] = { "up", "left" };
-	compatibilities[3][1] = { "down", "right" };
-	compatibilities[3][2] = { "down" };
-	compatibilities[0][3] = { "down", "right" };
-	compatibilities[1][3] = { "up", "left" };
-	compatibilities[2][3] = { "up" };
-
-	compatibilities[4][0] = { "up", "right" };
-	compatibilities[4][1] = { "down" };
-	compatibilities[4][2] = { "down", "left" };
-	compatibilities[4][3] = { "left" };
-	compatibilities[0][4] = { "down", "left" };
-	compatibilities[1][4] = { "up" };
-	compatibilities[2][4] = { "up", "right" };
-	compatibilities[3][4] = { "right" };
-	compatibilities[5][0] = {};
-	compatibilities[5][1] = { "down", "right" };
-	compatibilities[5][2] = { "down", "left" };
-	compatibilities[5][3] = { "up", "left" };
-	compatibilities[5][4] = { "up", "right" };
-	compatibilities[0][5] = {};
-	compatibilities[1][5] = { "up", "left" };
-	compatibilities[2][5] = { "up", "right" };
-	compatibilities[3][5] = { "down", "right" };
-	compatibilities[4][5] = { "down", "left" };
-
-	compatibilities[6][0] = { "up", "down" };
-	compatibilities[6][1] = {"right" };
-	compatibilities[6][2] = {"left" };
-	compatibilities[6][3] = {"left" };
-	compatibilities[6][4] = {"right" };
-	compatibilities[6][5] = {"left", "right" };
-	compatibilities[0][6] = { "up", "down" };
-	compatibilities[1][6] = { "left" };
-	compatibilities[2][6] = { "right" };
-	compatibilities[3][6] = { "right" };
-	compatibilities[4][6] = { "left" };
-	compatibilities[5][6] = {"left", "right" };
-
-	compatibilities[7][0] = { "left", "right" };
-	compatibilities[7][1] = { "down" };
-	compatibilities[7][2] = { "down" };
-	compatibilities[7][3] = { "up" };
-	compatibilities[7][4] = { "up" };
-	compatibilities[7][5] = { "up", "down" };
-	compatibilities[7][6] = {};
-	compatibilities[0][7] = { "left", "right" };
-	compatibilities[1][7] = { "up" };
-	compatibilities[2][7] = { "up" };
-	compatibilities[3][7] = { "down" };
-	compatibilities[4][7] = { "down" };
-	compatibilities[5][7] = { "up", "down" };
-	compatibilities[6][7] = {};
-
-
+	compatibilities = std::move(compatibilities);
 }
+
 
 mesh generate_structure()
 {
