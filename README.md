@@ -1,6 +1,7 @@
 # Project 3D Computer Science - The Megastructure by El khalifi Omar and Marie Louise Communal 
 
 [![Megastructure Info 3D](https://img.youtube.com/vi/H0w2zC7M3uc/0.jpg)](https://www.youtube.com/watch?v=H0w2zC7M3uc)
+
 This project is a procedurally generated openGL scene consisting in several interlocking rooms traversed by stairs and bridges. It was made as part of a course on computer graphics in early 2022.
 
 The inspiration for this scene comes from the works of MC Escher and Tsutomu Nihei.
